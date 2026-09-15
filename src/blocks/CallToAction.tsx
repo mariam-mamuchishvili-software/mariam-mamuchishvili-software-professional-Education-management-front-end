@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 export function CallToAction() {
   return (
-    <section className="border-t border-slate-200 bg-brand-600">
+    <section className="border-t border-slate-200 bg-brand-600 dark:border-white/10">
       <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
         <h2 className="text-2xl font-bold text-white sm:text-3xl">
           მზად ხართ დაიწყოთ თქვენი საგანმანათლებლო გზა?

@@ -13,7 +13,7 @@ export function CollegeDetails({ college, backHref }: CollegeDetailsProps) {
         <InfoItem
           label="ელ-ფოსტა"
           value={
-            <a href={`mailto:${college.email}`} className="text-brand-600 hover:underline">
+            <a href={`mailto:${college.email}`} className="text-brand-600 hover:underline dark:text-brand-400">
               {college.email}
             </a>
           }
@@ -21,7 +21,7 @@ export function CollegeDetails({ college, backHref }: CollegeDetailsProps) {
         <InfoItem
           label="ტელეფონი"
           value={
-            <a href={`tel:${college.phone}`} className="text-brand-600 hover:underline">
+            <a href={`tel:${college.phone}`} className="text-brand-600 hover:underline dark:text-brand-400">
               {college.phone}
             </a>
           }
@@ -33,7 +33,7 @@ export function CollegeDetails({ college, backHref }: CollegeDetailsProps) {
               href={college.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="break-all text-brand-600 hover:underline"
+              className="break-all text-brand-600 hover:underline dark:text-brand-400"
             >
               {college.website}
             </a>
@@ -48,11 +48,14 @@ export function CollegeDetails({ college, backHref }: CollegeDetailsProps) {
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {college.teachers?.map((teacher) => (
-            <div key={teacher.id} className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="font-medium text-slate-800">
+            <div
+              key={teacher.id}
+              className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+            >
+              <p className="font-medium text-slate-800 dark:text-slate-200">
                 {teacher.first_name} {teacher.last_name}
               </p>
-              <p className="mt-0.5 text-sm text-slate-500">{teacher.email}</p>
+              <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{teacher.email}</p>
             </div>
           ))}
         </div>

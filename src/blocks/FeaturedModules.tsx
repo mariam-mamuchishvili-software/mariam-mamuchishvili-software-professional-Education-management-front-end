@@ -16,12 +16,12 @@ export function FeaturedModules() {
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-8 flex items-end justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900">მოდულები</h2>
-          <p className="mt-1 text-slate-500">პროფესიულ პროგრამებში შემავალი სასწავლო მოდულები.</p>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">მოდულები</h2>
+          <p className="mt-1 text-slate-500 dark:text-slate-400">პროფესიულ პროგრამებში შემავალი სასწავლო მოდულები.</p>
         </div>
         <Link
           to="/modules"
-          className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-brand-600 hover:underline sm:flex"
+          className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-brand-600 hover:underline dark:text-brand-400 sm:flex"
         >
           ყველას ნახვა
           <ArrowRight className="size-4" aria-hidden="true" />

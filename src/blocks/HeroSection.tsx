@@ -3,15 +3,15 @@ import { Link } from "react-router";
 
 export function HeroSection() {
   return (
-    <section className="border-b border-slate-200 bg-white">
+    <section className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-28">
-        <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">
+        <p className="text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">
           განათლების მართვის პლატფორმა
         </p>
-        <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+        <h1 className="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
           კოლეჯები, პროფესიები და ჯგუფები — ერთ სივრცეში
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-lg text-slate-500">
+        <p className="mx-auto mt-5 max-w-xl text-lg text-slate-500 dark:text-slate-400">
           გაეცანით პროფესიულ საგანმანათლებლო ეკოსისტემას: კოლეჯებს, პროფესიებს, სასწავლო
           მოდულებს, ჯგუფებს, მასწავლებლებსა და სტუდენტებს ერთიან პლატფორმაზე.
         </p>
@@ -25,7 +25,7 @@ export function HeroSection() {
           </Link>
           <Link
             to="/colleges"
-            className="rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+            className="rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
           >
             კოლეჯების ნახვა
           </Link>

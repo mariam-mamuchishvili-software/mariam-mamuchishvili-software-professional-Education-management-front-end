@@ -29,9 +29,14 @@ export function ProfessionDetails({ profession, backHref }: ProfessionDetailsPro
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {profession.modules?.map((module) => (
-            <div key={module.id} className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="font-medium text-slate-800">{module.name}</p>
-              {module.code && <p className="mt-0.5 text-sm text-slate-500">{module.code}</p>}
+            <div
+              key={module.id}
+              className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+            >
+              <p className="font-medium text-slate-800 dark:text-slate-200">{module.name}</p>
+              {module.code && (
+                <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{module.code}</p>
+              )}
             </div>
           ))}
         </div>

@@ -17,7 +17,7 @@ export function TeacherDetails({ teacher, backHref }: TeacherDetailsProps) {
         <InfoItem
           label="ელ-ფოსტა"
           value={
-            <a href={`mailto:${teacher.email}`} className="text-brand-600 hover:underline">
+            <a href={`mailto:${teacher.email}`} className="text-brand-600 hover:underline dark:text-brand-400">
               {teacher.email}
             </a>
           }
@@ -25,7 +25,7 @@ export function TeacherDetails({ teacher, backHref }: TeacherDetailsProps) {
         <InfoItem
           label="ტელეფონი"
           value={
-            <a href={`tel:${teacher.phone}`} className="text-brand-600 hover:underline">
+            <a href={`tel:${teacher.phone}`} className="text-brand-600 hover:underline dark:text-brand-400">
               {teacher.phone}
             </a>
           }
@@ -50,9 +50,14 @@ export function TeacherDetails({ teacher, backHref }: TeacherDetailsProps) {
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {teacher.modules?.map((module) => (
-            <div key={module.id} className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="font-medium text-slate-800">{module.name}</p>
-              {module.code && <p className="mt-0.5 text-sm text-slate-500">{module.code}</p>}
+            <div
+              key={module.id}
+              className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+            >
+              <p className="font-medium text-slate-800 dark:text-slate-200">{module.name}</p>
+              {module.code && (
+                <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{module.code}</p>
+              )}
             </div>
           ))}
         </div>

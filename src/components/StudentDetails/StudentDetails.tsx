@@ -18,7 +18,7 @@ export function StudentDetails({ student, backHref }: StudentDetailsProps) {
         <InfoItem
           label="ელ-ფოსტა"
           value={
-            <a href={`mailto:${student.email}`} className="text-brand-600 hover:underline">
+            <a href={`mailto:${student.email}`} className="text-brand-600 hover:underline dark:text-brand-400">
               {student.email}
             </a>
           }
@@ -26,7 +26,7 @@ export function StudentDetails({ student, backHref }: StudentDetailsProps) {
         <InfoItem
           label="ტელეფონი"
           value={
-            <a href={`tel:${student.phone}`} className="text-brand-600 hover:underline">
+            <a href={`tel:${student.phone}`} className="text-brand-600 hover:underline dark:text-brand-400">
               {student.phone}
             </a>
           }

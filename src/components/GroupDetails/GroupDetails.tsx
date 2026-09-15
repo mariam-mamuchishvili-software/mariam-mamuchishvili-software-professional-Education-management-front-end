@@ -22,8 +22,11 @@ export function GroupDetails({ group, backHref }: GroupDetailsProps) {
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {group.students?.map((student) => (
-            <div key={student.id} className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="font-medium text-slate-800">
+            <div
+              key={student.id}
+              className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+            >
+              <p className="font-medium text-slate-800 dark:text-slate-200">
                 {student.first_name} {student.last_name}
               </p>
             </div>

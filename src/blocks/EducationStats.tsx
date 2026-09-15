@@ -35,17 +35,17 @@ export function EducationStats() {
   if (state.status !== "success") return null;
 
   return (
-    <section className="border-b border-slate-200 bg-slate-50">
+    <section className="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {state.data.map(({ label, total, icon: Icon }) => (
             <div
               key={label}
-              className="flex flex-col items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-6 text-center"
+              className="flex flex-col items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-6 text-center dark:border-slate-800 dark:bg-slate-900"
             >
-              <Icon className="size-5 text-brand-600" aria-hidden="true" />
-              <p className="text-2xl font-bold text-slate-900">{total}</p>
-              <p className="text-xs font-medium text-slate-500">{label}</p>
+              <Icon className="size-5 text-brand-600 dark:text-brand-400" aria-hidden="true" />
+              <p className="text-2xl font-bold text-slate-900 dark:text-white">{total}</p>
+              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
             </div>
           ))}
         </div>

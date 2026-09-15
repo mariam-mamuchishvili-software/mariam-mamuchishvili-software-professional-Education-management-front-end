@@ -4,17 +4,20 @@ import { NAV_LINKS } from "../constants/nav";
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white">
+    <footer className="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-sm">
-            <Link to="/" className="flex items-center gap-2 font-semibold text-slate-900">
+            <Link
+              to="/"
+              className="flex items-center gap-2 font-semibold text-slate-900 dark:text-white"
+            >
               <span className="flex size-9 items-center justify-center rounded-xl bg-brand-600 text-white">
                 <GraduationCap className="size-5" aria-hidden="true" />
               </span>
               <span className="text-lg">EduHub</span>
             </Link>
-            <p className="mt-3 text-sm leading-relaxed text-slate-500">
+            <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
               პლატფორმა კოლეჯების, პროფესიების, მოდულების, ჯგუფების, მასწავლებლებისა და
               სტუდენტების შესახებ ინფორმაციის ცენტრალიზებული მართვისთვის.
             </p>
@@ -26,7 +29,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     to={link.href}
-                    className="text-sm text-slate-500 transition-colors hover:text-brand-600"
+                    className="text-sm text-slate-500 transition-colors hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
                   >
                     {link.label}
                   </Link>
@@ -36,7 +39,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-10 border-t border-slate-100 pt-6 text-sm text-slate-400">
+        <div className="mt-10 border-t border-slate-100 pt-6 text-sm text-slate-400 dark:border-slate-800 dark:text-slate-500">
           © {new Date().getFullYear()} EduHub. ყველა უფლება დაცულია.
         </div>
       </div>
