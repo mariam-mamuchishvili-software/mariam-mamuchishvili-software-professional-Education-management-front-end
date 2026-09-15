@@ -1,9 +1,12 @@
-// types/college.ts
+// types/college.types.ts
 
 export interface Teacher {
   id: number;
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
+  phone?: string;
+  specialization?: string;
 }
 
 export interface College {
@@ -18,26 +21,11 @@ export interface College {
   updated_at?: string;
 }
 
-// ტიპი კოლეჯის შექმნისა და რედაქტირების ფორმისთვის
-export type CollegeFormData = Omit<
-  College,
-  "id" | "teachers" | "created_at" | "updated_at"
->;
-
-// კომპონენტის Props ინტერფეისი (onEdit და onDelete ჩახსნილია)
 export interface CollegeCardProps {
   college: College;
-  onViewMore: (college: College) => void;
 }
 
 export interface CollegeDetailsProps {
   college: College;
-  onBack: () => void;
-}
-
-export interface CollegeFormProps {
-  initialData?: College;
-  onSubmit: (data: CollegeFormData) => void;
-  onCancel?: () => void;
-  isLoading?: boolean;
+  backHref: string;
 }

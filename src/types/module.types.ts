@@ -1,4 +1,4 @@
-// types/module.ts
+// types/module.types.ts
 
 export interface TeacherRef {
   id: number;
@@ -26,14 +26,11 @@ export interface Module {
   updated_at?: string;
 }
 
-// მოკლე ხედვის (Card) Props
 export interface ModuleCardProps {
   module: Module;
-  onViewMore: (module: Module) => void;
 }
 
-// სრული ხედვის (Full Details) Props
 export interface ModuleDetailsProps {
   module: Module;
-  onBack: () => void;
+  backHref: string;
 }

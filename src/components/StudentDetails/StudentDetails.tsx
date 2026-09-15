@@ -1,89 +1,48 @@
-// components/StudentDetails.tsx
-import React from "react";
+import { Badge } from "../Badge/Badge";
+import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
+import { InfoItem } from "../InfoItem/InfoItem";
+import { RelationSection } from "../RelationSection/RelationSection";
 import type { StudentDetailsProps } from "../../types/student.types";
-import styles from "./StudentDetails.module.css";
+import { formatDate } from "../../utils/formatDate";
 
-export const StudentDetails: React.FC<StudentDetailsProps> = ({
-  student,
-  onBack,
-}) => {
+export function StudentDetails({ student, backHref }: StudentDetailsProps) {
   return (
-    <div className={styles.container}>
-      {/* სათაური და უკან დაბრუნების ღილაკი */}
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>
-            {student.first_name} {student.last_name}
-          </h1>
-          <p className={styles.subtitle}>სტუდენტის სრული ინფორმაცია</p>
-        </div>
-        <button onClick={onBack} className={styles.backButton}>
-          &larr; უკან
-        </button>
+    <div className="space-y-8">
+      <DetailsHeader
+        title={`${student.first_name} ${student.last_name}`}
+        subtitle="სტუდენტის სრული ინფორმაცია"
+        backHref={backHref}
+      />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <InfoItem
+          label="ელ-ფოსტა"
+          value={
+            <a href={`mailto:${student.email}`} className="text-brand-600 hover:underline">
+              {student.email}
+            </a>
+          }
+        />
+        <InfoItem
+          label="ტელეფონი"
+          value={
+            <a href={`tel:${student.phone}`} className="text-brand-600 hover:underline">
+              {student.phone}
+            </a>
+          }
+        />
+        <InfoItem label="დაბადების თარიღი" value={formatDate(student.birth_date)} />
       </div>
 
-      {/* ძირითადი საკონტაქტო და პირადი ინფო */}
-      <div className={styles.infoGrid}>
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>ელ-ფოსტა</span>
-          <a href={`mailto:${student.email}`} className={styles.linkPrimary}>
-            {student.email}
-          </a>
+      <RelationSection
+        title="ჯგუფები"
+        count={student.groups?.length ?? 0}
+        emptyText="ჯგუფები არ არის მითითებული."
+      >
+        <div className="flex flex-wrap gap-2">
+          {student.groups?.map((group) => <Badge key={group.id}>{group.name}</Badge>)}
         </div>
-
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>ტელეფონი</span>
-          <a href={`tel:${student.phone}`} className={styles.linkSecondary}>
-            {student.phone}
-          </a>
-        </div>
-
-        <div className={`${styles.infoBox} ${styles.infoBoxWide}`}>
-          <span className={styles.infoLabel}>დაბადების თარიღი</span>
-          <p className={styles.infoValue}>{student.birth_date}</p>
-        </div>
-      </div>
-
-      {/* ჯგუფების სია (BelongsToMany) */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>
-          ჯგუფები ({student.groups?.length || 0})
-        </h3>
-
-        {student.groups && student.groups.length > 0 ? (
-          <div className={styles.badgeList}>
-            {student.groups.map((group) => (
-              <span key={group.id} className={styles.badge}>
-                {group.name}
-              </span>
-            ))}
-          </div>
-        ) : (
-          <p className={styles.emptyText}>ჯგუფები არ არის მითითებული.</p>
-        )}
-      </div>
-
-      {/* მოდულების სია (BelongsToMany) */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>
-          მოდულები ({student.modules?.length || 0})
-        </h3>
-
-        {student.modules && student.modules.length > 0 ? (
-          <div className={styles.itemGrid}>
-            {student.modules.map((module) => (
-              <div key={module.id} className={styles.itemCard}>
-                <span className={styles.itemName}>{module.name}</span>
-                {module.code && (
-                  <span className={styles.itemCode}>{module.code}</span>
-                )}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className={styles.emptyText}>მოდულები არ არის მითითებული.</p>
-        )}
-      </div>
+      </RelationSection>
     </div>
   );
-};
+}

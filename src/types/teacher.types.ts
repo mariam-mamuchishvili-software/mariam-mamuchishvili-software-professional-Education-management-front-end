@@ -1,4 +1,4 @@
-// types/teacher.ts
+// types/teacher.types.ts
 
 export interface CollegeRef {
   id: number;
@@ -24,14 +24,11 @@ export interface Teacher {
   updated_at?: string;
 }
 
-// მოკლე ხედვის (Card) Props
 export interface TeacherCardProps {
   teacher: Teacher;
-  onViewMore: (teacher: Teacher) => void;
 }
 
-// სრული ხედვის (Full Details) Props
 export interface TeacherDetailsProps {
   teacher: Teacher;
-  onBack: () => void;
+  backHref: string;
 }

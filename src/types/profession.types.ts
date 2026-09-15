@@ -1,4 +1,4 @@
-// types/profession.ts
+// types/profession.types.ts
 
 export interface ModuleRef {
   id: number;
@@ -25,14 +25,11 @@ export interface Profession {
   updated_at?: string;
 }
 
-// მოკლე ხედვის (Card) Props
 export interface ProfessionCardProps {
   profession: Profession;
-  onViewMore: (profession: Profession) => void;
 }
 
-// სრული ხედვის (Full Details) Props
 export interface ProfessionDetailsProps {
   profession: Profession;
-  onBack: () => void;
+  backHref: string;
 }

@@ -1,8 +1,9 @@
-// types/group.ts
+// types/group.types.ts
 
 export interface ProfessionRef {
   id: number;
   name: string;
+  code?: string;
 }
 
 export interface StudentRef {
@@ -24,14 +25,11 @@ export interface Group {
   updated_at?: string;
 }
 
-// მოკლე ხედვის (Card) Props
 export interface GroupCardProps {
   group: Group;
-  onViewMore: (group: Group) => void;
 }
 
-// სრული ხედვის (Full Details) Props
 export interface GroupDetailsProps {
   group: Group;
-  onBack: () => void;
+  backHref: string;
 }

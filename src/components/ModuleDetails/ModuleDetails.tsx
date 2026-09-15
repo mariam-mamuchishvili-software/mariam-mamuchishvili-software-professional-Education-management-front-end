@@ -1,94 +1,49 @@
-// components/ModuleDetails.tsx
-import React from "react";
+import { Badge } from "../Badge/Badge";
+import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
+import { InfoItem } from "../InfoItem/InfoItem";
+import { RelationSection } from "../RelationSection/RelationSection";
 import type { ModuleDetailsProps } from "../../types/module.types";
-import styles from "./ModuleDetails.module.css";
 
-export const ModuleDetails: React.FC<ModuleDetailsProps> = ({
-  module,
-  onBack,
-}) => {
+export function ModuleDetails({ module, backHref }: ModuleDetailsProps) {
   return (
-    <div className={styles.container}>
-      {/* სათაური და უკან დაბრუნების ღილაკი */}
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>{module.name}</h1>
-          <p className={styles.subtitle}>მოდულის სრული ინფორმაცია</p>
-        </div>
-        <button onClick={onBack} className={styles.backButton}>
-          &larr; უკან
-        </button>
+    <div className="space-y-8">
+      <DetailsHeader title={module.name} subtitle="მოდულის სრული ინფორმაცია" backHref={backHref} />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <InfoItem label="კოდი" value={module.code} />
+        <InfoItem label="ხანგრძლივობა" value={module.duration} />
+        <InfoItem label="კრედიტები" value={module.credits} wide />
+        {module.description && <InfoItem label="აღწერა" value={module.description} wide />}
       </div>
 
-      {/* ძირითადი ინფო */}
-      <div className={styles.infoGrid}>
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>კოდი</span>
-          <p className={styles.infoValue}>{module.code || "—"}</p>
+      <RelationSection
+        title="მასწავლებლები"
+        count={module.teachers?.length ?? 0}
+        emptyText="მასწავლებლები ჯერ არ არიან დამატებული."
+      >
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {module.teachers?.map((teacher) => (
+            <div key={teacher.id} className="rounded-xl border border-slate-200 bg-white p-4">
+              <p className="font-medium text-slate-800">
+                {teacher.first_name} {teacher.last_name}
+              </p>
+              <p className="mt-0.5 text-sm text-slate-500">{teacher.email}</p>
+            </div>
+          ))}
         </div>
+      </RelationSection>
 
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>ხანგრძლივობა</span>
-          <p className={styles.infoValue}>{module.duration || "—"}</p>
+      <RelationSection
+        title="პროფესიები"
+        count={module.professions?.length ?? 0}
+        emptyText="პროფესიები არ არის მითითებული."
+      >
+        <div className="flex flex-wrap gap-2">
+          {module.professions?.map((profession) => (
+            <Badge key={profession.id}>{profession.name}</Badge>
+          ))}
         </div>
-
-        <div className={`${styles.infoBox} ${styles.infoBoxWide}`}>
-          <span className={styles.infoLabel}>კრედიტები</span>
-          <p className={styles.infoValue}>{module.credits ?? "—"}</p>
-        </div>
-
-        {module.description && (
-          <div className={`${styles.infoBox} ${styles.infoBoxWide}`}>
-            <span className={styles.infoLabel}>აღწერა</span>
-            <p className={styles.infoValue}>{module.description}</p>
-          </div>
-        )}
-      </div>
-
-      {/* მასწავლებლების სია (BelongsToMany) */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>
-          მასწავლებლები ({module.teachers?.length || 0})
-        </h3>
-
-        {module.teachers && module.teachers.length > 0 ? (
-          <div className={styles.itemGrid}>
-            {module.teachers.map((teacher) => (
-              <div key={teacher.id} className={styles.itemCard}>
-                <div>
-                  <p className={styles.itemName}>
-                    {teacher.first_name} {teacher.last_name}
-                  </p>
-                  <p className={styles.itemSub}>{teacher.email}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className={styles.emptyText}>
-            მასწავლებლები ჯერ არ არიან დამატებული.
-          </p>
-        )}
-      </div>
-
-      {/* პროფესიების სია (BelongsToMany) */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>
-          პროფესიები ({module.professions?.length || 0})
-        </h3>
-
-        {module.professions && module.professions.length > 0 ? (
-          <div className={styles.badgeList}>
-            {module.professions.map((profession) => (
-              <span key={profession.id} className={styles.badge}>
-                {profession.name}
-              </span>
-            ))}
-          </div>
-        ) : (
-          <p className={styles.emptyText}>პროფესიები არ არის მითითებული.</p>
-        )}
-      </div>
+      </RelationSection>
     </div>
   );
-};
+}

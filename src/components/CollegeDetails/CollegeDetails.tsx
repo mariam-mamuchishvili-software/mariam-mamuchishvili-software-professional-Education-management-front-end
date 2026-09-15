@@ -1,82 +1,62 @@
-// components/CollegeDetails.tsx
-import React from "react";
+import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
+import { InfoItem } from "../InfoItem/InfoItem";
+import { RelationSection } from "../RelationSection/RelationSection";
 import type { CollegeDetailsProps } from "../../types/college.types";
-import styles from "./CollegeDetails.module.css";
 
-export const CollegeDetails: React.FC<CollegeDetailsProps> = ({
-  college,
-  onBack,
-}) => {
+export function CollegeDetails({ college, backHref }: CollegeDetailsProps) {
   return (
-    <div className={styles.container}>
-      {/* სათაური და უკან დაბრუნების ღილაკი */}
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>{college.name}</h1>
-          <p className={styles.subtitle}>კოლეჯის სრული ინფორმაცია</p>
-        </div>
-        <button onClick={onBack} className={styles.backButton}>
-          &larr; უკან
-        </button>
+    <div className="space-y-8">
+      <DetailsHeader title={college.name} subtitle="კოლეჯის სრული ინფორმაცია" backHref={backHref} />
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <InfoItem label="მისამართი" value={college.address} />
+        <InfoItem
+          label="ელ-ფოსტა"
+          value={
+            <a href={`mailto:${college.email}`} className="text-brand-600 hover:underline">
+              {college.email}
+            </a>
+          }
+        />
+        <InfoItem
+          label="ტელეფონი"
+          value={
+            <a href={`tel:${college.phone}`} className="text-brand-600 hover:underline">
+              {college.phone}
+            </a>
+          }
+        />
+        <InfoItem
+          label="ვებ-საიტი"
+          value={
+            <a
+              href={college.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="break-all text-brand-600 hover:underline"
+            >
+              {college.website}
+            </a>
+          }
+        />
       </div>
 
-      {/* ძირითადი საკონტაქტო ინფო */}
-      <div className={styles.infoGrid}>
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>მისამართი</span>
-          <p className={styles.infoValue}>{college.address}</p>
+      <RelationSection
+        title="მასწავლებლები"
+        count={college.teachers?.length ?? 0}
+        emptyText="მასწავლებლები ჯერ არ არიან დამატებული."
+      >
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {college.teachers?.map((teacher) => (
+            <div key={teacher.id} className="rounded-xl border border-slate-200 bg-white p-4">
+              <p className="font-medium text-slate-800">
+                {teacher.first_name} {teacher.last_name}
+              </p>
+              <p className="mt-0.5 text-sm text-slate-500">{teacher.email}</p>
+            </div>
+          ))}
         </div>
-
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>ელ-ფოსტა</span>
-          <a href={`mailto:${college.email}`} className={styles.linkPrimary}>
-            {college.email}
-          </a>
-        </div>
-
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>ტელეფონი</span>
-          <a href={`tel:${college.phone}`} className={styles.linkSecondary}>
-            {college.phone}
-          </a>
-        </div>
-
-        <div className={styles.infoBox}>
-          <span className={styles.infoLabel}>ვებ-საიტი</span>
-          <a
-            href={college.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.linkPrimaryBlock}
-          >
-            {college.website}
-          </a>
-        </div>
-      </div>
-
-      {/* მასწავლებლების სია (BelongsToMany) */}
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>
-          მასწავლებლები ({college.teachers?.length || 0})
-        </h3>
-
-        {college.teachers && college.teachers.length > 0 ? (
-          <div className={styles.itemGrid}>
-            {college.teachers.map((teacher) => (
-              <div key={teacher.id} className={styles.itemCard}>
-                <div>
-                  <p className={styles.itemName}>{teacher.name}</p>
-                  <p className={styles.itemSub}>{teacher.email}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className={styles.emptyText}>
-            მასწავლებლები ჯერ არ არიან დამატებული.
-          </p>
-        )}
-      </div>
+      </RelationSection>
     </div>
   );
-};
+}

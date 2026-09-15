@@ -1,35 +1,15 @@
-// components/CollegeCard.tsx
-import React from "react";
+import { EntityCardShell } from "../EntityCardShell/EntityCardShell";
 import type { CollegeCardProps } from "../../types/college.types";
-import styles from "./CollegeCard.module.css";
 
-export const CollegeCard: React.FC<CollegeCardProps> = ({
-  college,
-  onViewMore,
-}) => {
+export function CollegeCard({ college }: CollegeCardProps) {
   return (
-    <div className={styles.card}>
-      <div>
-        <h3 className={styles.title}>{college.name}</h3>
-
-        <div className={styles.meta}>
-          <p className={styles.metaRow}>
-            <span className={styles.metaLabel}>მისამართი:</span>{" "}
-            {college.address}
-          </p>
-          <p className={styles.metaRow}>
-            <span className={styles.metaLabel}>ელ-ფოსტა:</span>{" "}
-            {college.email}
-          </p>
-        </div>
-      </div>
-
-      <button
-        onClick={() => onViewMore(college)}
-        className={styles.viewButton}
-      >
-        ვრცლად &rarr;
-      </button>
-    </div>
+    <EntityCardShell
+      title={college.name}
+      to={`/colleges/${college.id}`}
+      meta={[
+        { label: "მისამართი", value: college.address },
+        { label: "ელ-ფოსტა", value: college.email },
+      ]}
+    />
   );
-};
+}

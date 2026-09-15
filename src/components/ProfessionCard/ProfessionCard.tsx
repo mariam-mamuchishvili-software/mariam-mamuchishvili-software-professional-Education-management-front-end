@@ -1,35 +1,15 @@
-// components/ProfessionCard.tsx
-import React from "react";
+import { EntityCardShell } from "../EntityCardShell/EntityCardShell";
 import type { ProfessionCardProps } from "../../types/profession.types";
-import styles from "./ProfessionCard.module.css";
 
-export const ProfessionCard: React.FC<ProfessionCardProps> = ({
-  profession,
-  onViewMore,
-}) => {
+export function ProfessionCard({ profession }: ProfessionCardProps) {
   return (
-    <div className={styles.card}>
-      <div>
-        <h3 className={styles.title}>{profession.name}</h3>
-
-        <div className={styles.meta}>
-          <p className={styles.metaRow}>
-            <span className={styles.metaLabel}>კოდი:</span>{" "}
-            {profession.code || "—"}
-          </p>
-          <p className={styles.metaRow}>
-            <span className={styles.metaLabel}>კვალიფიკაცია:</span>{" "}
-            {profession.qualification || "—"}
-          </p>
-        </div>
-      </div>
-
-      <button
-        onClick={() => onViewMore(profession)}
-        className={styles.viewButton}
-      >
-        ვრცლად &rarr;
-      </button>
-    </div>
+    <EntityCardShell
+      title={profession.name}
+      to={`/professions/${profession.id}`}
+      meta={[
+        { label: "კოდი", value: profession.code },
+        { label: "კვალიფიკაცია", value: profession.qualification },
+      ]}
+    />
   );
-};
+}
