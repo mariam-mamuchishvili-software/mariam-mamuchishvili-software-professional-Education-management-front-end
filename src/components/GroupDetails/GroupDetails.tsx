@@ -1,9 +1,15 @@
 import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
 import { InfoItem } from "../InfoItem/InfoItem";
+import { RelatedDataToggles } from "../RelatedDataToggles/RelatedDataToggles";
 import { RelationSection } from "../RelationSection/RelationSection";
-import type { GroupDetailsProps } from "../../types/group.types";
+import type { GroupDetailsProps, GroupInclude } from "../../types/group.types";
 
-export function GroupDetails({ group, backHref }: GroupDetailsProps) {
+const INCLUDE_OPTIONS: { key: GroupInclude; label: string }[] = [
+  { key: "profession", label: "პროფესია" },
+  { key: "students", label: "სტუდენტები" },
+];
+
+export function GroupDetails({ group, backHref, selectedIncludes, onToggleInclude }: GroupDetailsProps) {
   return (
     <div className="space-y-8">
       <DetailsHeader title={group.name} subtitle="ჯგუფის სრული ინფორმაცია" backHref={backHref} />
@@ -15,24 +21,28 @@ export function GroupDetails({ group, backHref }: GroupDetailsProps) {
         <InfoItem label="პროფესია" value={group.profession?.name} />
       </div>
 
-      <RelationSection
-        title="სტუდენტები"
-        count={group.students?.length ?? 0}
-        emptyText="სტუდენტები არ არის მითითებული."
-      >
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {group.students?.map((student) => (
-            <div
-              key={student.id}
-              className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
-            >
-              <p className="font-medium text-slate-800 dark:text-slate-200">
-                {student.first_name} {student.last_name}
-              </p>
-            </div>
-          ))}
-        </div>
-      </RelationSection>
+      <RelatedDataToggles options={INCLUDE_OPTIONS} selected={selectedIncludes} onToggle={onToggleInclude} />
+
+      {selectedIncludes.includes("students") && (
+        <RelationSection
+          title="სტუდენტები"
+          count={group.students?.length ?? 0}
+          emptyText="სტუდენტები არ არის მითითებული."
+        >
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {group.students?.map((student) => (
+              <div
+                key={student.id}
+                className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+              >
+                <p className="font-medium text-slate-800 dark:text-slate-200">
+                  {student.first_name} {student.last_name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </RelationSection>
+      )}
     </div>
   );
 }

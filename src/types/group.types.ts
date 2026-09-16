@@ -12,6 +12,8 @@ export interface StudentRef {
   last_name: string;
 }
 
+export type GroupInclude = "profession" | "students";
+
 export interface Group {
   id: number;
   profession_id: number;
@@ -32,4 +34,6 @@ export interface GroupCardProps {
 export interface GroupDetailsProps {
   group: Group;
   backHref: string;
+  selectedIncludes: GroupInclude[];
+  onToggleInclude: (include: GroupInclude) => void;
 }

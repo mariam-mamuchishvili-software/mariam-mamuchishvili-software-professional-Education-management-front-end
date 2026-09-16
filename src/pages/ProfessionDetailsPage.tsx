@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router";
 import { getProfession } from "../api/professions.api";
 import { ProfessionDetails } from "../components/ProfessionDetails/ProfessionDetails";
@@ -6,10 +7,21 @@ import { Breadcrumbs } from "../partials/Breadcrumbs";
 import { EmptyState } from "../partials/EmptyState";
 import { ErrorState } from "../partials/ErrorState";
 import { LoadingState } from "../partials/LoadingState";
+import type { ProfessionInclude } from "../types/profession.types";
 
 export function ProfessionDetailsPage() {
   const { id = "" } = useParams();
-  const state = useAsync((signal) => getProfession(id, signal), [id]);
+  const [selectedIncludes, setSelectedIncludes] = useState<ProfessionInclude[]>([]);
+  const state = useAsync(
+    (signal) => getProfession(id, selectedIncludes, signal),
+    [id, selectedIncludes.join(",")],
+  );
+
+  function toggleInclude(include: ProfessionInclude) {
+    setSelectedIncludes((prev) =>
+      prev.includes(include) ? prev.filter((item) => item !== include) : [...prev, include],
+    );
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -29,7 +41,12 @@ export function ProfessionDetailsPage() {
           <ErrorState message={state.error} />
         ))}
       {state.status === "success" && (
-        <ProfessionDetails profession={state.data.data} backHref="/professions" />
+        <ProfessionDetails
+          profession={state.data.data}
+          backHref="/professions"
+          selectedIncludes={selectedIncludes}
+          onToggleInclude={toggleInclude}
+        />
       )}
     </div>
   );

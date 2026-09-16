@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router";
 import { getGroup } from "../api/groups.api";
 import { GroupDetails } from "../components/GroupDetails/GroupDetails";
@@ -6,10 +7,21 @@ import { Breadcrumbs } from "../partials/Breadcrumbs";
 import { EmptyState } from "../partials/EmptyState";
 import { ErrorState } from "../partials/ErrorState";
 import { LoadingState } from "../partials/LoadingState";
+import type { GroupInclude } from "../types/group.types";
 
 export function GroupDetailsPage() {
   const { id = "" } = useParams();
-  const state = useAsync((signal) => getGroup(id, signal), [id]);
+  const [selectedIncludes, setSelectedIncludes] = useState<GroupInclude[]>([]);
+  const state = useAsync(
+    (signal) => getGroup(id, selectedIncludes, signal),
+    [id, selectedIncludes.join(",")],
+  );
+
+  function toggleInclude(include: GroupInclude) {
+    setSelectedIncludes((prev) =>
+      prev.includes(include) ? prev.filter((item) => item !== include) : [...prev, include],
+    );
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -28,7 +40,14 @@ export function GroupDetailsPage() {
         ) : (
           <ErrorState message={state.error} />
         ))}
-      {state.status === "success" && <GroupDetails group={state.data.data} backHref="/groups" />}
+      {state.status === "success" && (
+        <GroupDetails
+          group={state.data.data}
+          backHref="/groups"
+          selectedIncludes={selectedIncludes}
+          onToggleInclude={toggleInclude}
+        />
+      )}
     </div>
   );
 }

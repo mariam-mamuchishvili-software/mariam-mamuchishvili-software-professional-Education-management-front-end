@@ -12,6 +12,8 @@ export interface GroupRef {
   code?: string;
 }
 
+export type ProfessionInclude = "modules" | "groups";
+
 export interface Profession {
   id: number;
   name: string;
@@ -32,4 +34,6 @@ export interface ProfessionCardProps {
 export interface ProfessionDetailsProps {
   profession: Profession;
   backHref: string;
+  selectedIncludes: ProfessionInclude[];
+  onToggleInclude: (include: ProfessionInclude) => void;
 }

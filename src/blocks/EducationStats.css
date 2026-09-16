@@ -1,0 +1,54 @@
+.edu-stats-card {
+  position: relative;
+  isolation: isolate;
+}
+
+.edu-stats-card::before {
+  content: "";
+  position: absolute;
+  inset: -40% 40% auto -10%;
+  height: 260px;
+  background: radial-gradient(circle, var(--color-brand-400) 0%, transparent 70%);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dark .edu-stats-card::before {
+  opacity: 0.16;
+}
+
+.edu-stats-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-slate-200) 20%,
+    var(--color-slate-200) 80%,
+    transparent 100%
+  );
+}
+
+.dark .edu-stats-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-slate-800) 20%,
+    var(--color-slate-800) 80%,
+    transparent 100%
+  );
+}
+
+.edu-stats-item {
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.edu-stats-item:hover {
+  transform: translateY(-2px);
+}
+
+.edu-stats-item:active {
+  transform: translateY(0);
+}

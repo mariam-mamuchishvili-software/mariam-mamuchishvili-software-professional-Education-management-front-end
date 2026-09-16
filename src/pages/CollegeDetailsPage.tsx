@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams } from "react-router";
 import { getCollege } from "../api/colleges.api";
 import { CollegeDetails } from "../components/CollegeDetails/CollegeDetails";
@@ -6,10 +7,21 @@ import { Breadcrumbs } from "../partials/Breadcrumbs";
 import { EmptyState } from "../partials/EmptyState";
 import { ErrorState } from "../partials/ErrorState";
 import { LoadingState } from "../partials/LoadingState";
+import type { CollegeInclude } from "../types/college.types";
 
 export function CollegeDetailsPage() {
   const { id = "" } = useParams();
-  const state = useAsync((signal) => getCollege(id, signal), [id]);
+  const [selectedIncludes, setSelectedIncludes] = useState<CollegeInclude[]>([]);
+  const state = useAsync(
+    (signal) => getCollege(id, selectedIncludes, signal),
+    [id, selectedIncludes.join(",")],
+  );
+
+  function toggleInclude(include: CollegeInclude) {
+    setSelectedIncludes((prev) =>
+      prev.includes(include) ? prev.filter((item) => item !== include) : [...prev, include],
+    );
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -28,7 +40,14 @@ export function CollegeDetailsPage() {
         ) : (
           <ErrorState message={state.error} />
         ))}
-      {state.status === "success" && <CollegeDetails college={state.data.data} backHref="/colleges" />}
+      {state.status === "success" && (
+        <CollegeDetails
+          college={state.data.data}
+          backHref="/colleges"
+          selectedIncludes={selectedIncludes}
+          onToggleInclude={toggleInclude}
+        />
+      )}
     </div>
   );
 }

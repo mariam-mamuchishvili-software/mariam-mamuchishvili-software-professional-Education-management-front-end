@@ -11,6 +11,8 @@ export interface ModuleRef {
   code?: string;
 }
 
+export type TeacherInclude = "colleges" | "modules";
+
 export interface Teacher {
   id: number;
   first_name: string;
@@ -31,4 +33,6 @@ export interface TeacherCardProps {
 export interface TeacherDetailsProps {
   teacher: Teacher;
   backHref: string;
+  selectedIncludes: TeacherInclude[];
+  onToggleInclude: (include: TeacherInclude) => void;
 }

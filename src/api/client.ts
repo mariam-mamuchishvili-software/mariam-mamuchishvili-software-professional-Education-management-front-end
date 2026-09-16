@@ -26,6 +26,10 @@ export function buildListQuery(params?: ListParams): string {
   return query ? `?${query}` : "";
 }
 
+export function buildIncludeQuery(include?: string[]): string {
+  return include && include.length > 0 ? `?include=${include.join(",")}` : "";
+}
+
 export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
   let response: Response;
 

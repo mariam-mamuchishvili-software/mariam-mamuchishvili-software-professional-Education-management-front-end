@@ -13,6 +13,14 @@ export interface ProfessionRef {
   code?: string;
 }
 
+export interface StudentRef {
+  id: number;
+  first_name: string;
+  last_name: string;
+}
+
+export type ModuleInclude = "teachers" | "professions" | "students";
+
 export interface Module {
   id: number;
   name: string;
@@ -22,6 +30,7 @@ export interface Module {
   credits?: number;
   teachers?: TeacherRef[];
   professions?: ProfessionRef[];
+  students?: StudentRef[];
   created_at?: string;
   updated_at?: string;
 }
@@ -33,4 +42,6 @@ export interface ModuleCardProps {
 export interface ModuleDetailsProps {
   module: Module;
   backHref: string;
+  selectedIncludes: ModuleInclude[];
+  onToggleInclude: (include: ModuleInclude) => void;
 }

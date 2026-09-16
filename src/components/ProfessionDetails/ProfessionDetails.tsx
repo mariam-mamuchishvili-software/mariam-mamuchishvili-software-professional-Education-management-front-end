@@ -1,10 +1,21 @@
 import { Badge } from "../Badge/Badge";
 import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
 import { InfoItem } from "../InfoItem/InfoItem";
+import { RelatedDataToggles } from "../RelatedDataToggles/RelatedDataToggles";
 import { RelationSection } from "../RelationSection/RelationSection";
-import type { ProfessionDetailsProps } from "../../types/profession.types";
+import type { ProfessionDetailsProps, ProfessionInclude } from "../../types/profession.types";
 
-export function ProfessionDetails({ profession, backHref }: ProfessionDetailsProps) {
+const INCLUDE_OPTIONS: { key: ProfessionInclude; label: string }[] = [
+  { key: "modules", label: "მოდულები" },
+  { key: "groups", label: "ჯგუფები" },
+];
+
+export function ProfessionDetails({
+  profession,
+  backHref,
+  selectedIncludes,
+  onToggleInclude,
+}: ProfessionDetailsProps) {
   return (
     <div className="space-y-8">
       <DetailsHeader
@@ -22,35 +33,41 @@ export function ProfessionDetails({ profession, backHref }: ProfessionDetailsPro
         )}
       </div>
 
-      <RelationSection
-        title="მოდულები"
-        count={profession.modules?.length ?? 0}
-        emptyText="მოდულები არ არის მითითებული."
-      >
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {profession.modules?.map((module) => (
-            <div
-              key={module.id}
-              className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
-            >
-              <p className="font-medium text-slate-800 dark:text-slate-200">{module.name}</p>
-              {module.code && (
-                <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{module.code}</p>
-              )}
-            </div>
-          ))}
-        </div>
-      </RelationSection>
+      <RelatedDataToggles options={INCLUDE_OPTIONS} selected={selectedIncludes} onToggle={onToggleInclude} />
 
-      <RelationSection
-        title="ჯგუფები"
-        count={profession.groups?.length ?? 0}
-        emptyText="ჯგუფები არ არის მითითებული."
-      >
-        <div className="flex flex-wrap gap-2">
-          {profession.groups?.map((group) => <Badge key={group.id}>{group.name}</Badge>)}
-        </div>
-      </RelationSection>
+      {selectedIncludes.includes("modules") && (
+        <RelationSection
+          title="მოდულები"
+          count={profession.modules?.length ?? 0}
+          emptyText="მოდულები არ არის მითითებული."
+        >
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {profession.modules?.map((module) => (
+              <div
+                key={module.id}
+                className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+              >
+                <p className="font-medium text-slate-800 dark:text-slate-200">{module.name}</p>
+                {module.code && (
+                  <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{module.code}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </RelationSection>
+      )}
+
+      {selectedIncludes.includes("groups") && (
+        <RelationSection
+          title="ჯგუფები"
+          count={profession.groups?.length ?? 0}
+          emptyText="ჯგუფები არ არის მითითებული."
+        >
+          <div className="flex flex-wrap gap-2">
+            {profession.groups?.map((group) => <Badge key={group.id}>{group.name}</Badge>)}
+          </div>
+        </RelationSection>
+      )}
     </div>
   );
 }
