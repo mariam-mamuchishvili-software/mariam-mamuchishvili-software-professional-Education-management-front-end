@@ -1,0 +1,11 @@
+/* Accent identity for TeacherCard, layered on top of EntityCardShell's base design. */
+
+.teacher-card {
+  --accent: #7c3aed;
+  --accent-soft: rgba(124, 58, 237, 0.1);
+}
+
+html.dark .teacher-card {
+  --accent: #a78bfa;
+  --accent-soft: rgba(167, 139, 250, 0.14);
+}

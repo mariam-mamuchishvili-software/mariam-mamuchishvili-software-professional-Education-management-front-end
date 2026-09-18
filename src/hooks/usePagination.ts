@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router";
 
-const DEFAULT_LIMIT = 12;
+const DEFAULT_LIMIT = 8;
 
 /**
  * Page number lives in the `page` query param so back/forward navigation

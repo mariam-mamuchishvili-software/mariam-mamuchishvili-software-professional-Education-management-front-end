@@ -1,0 +1,11 @@
+/* Accent identity for StudentCard, layered on top of EntityCardShell's base design. */
+
+.student-card {
+  --accent: #e11d48;
+  --accent-soft: rgba(225, 29, 72, 0.1);
+}
+
+html.dark .student-card {
+  --accent: #fb7185;
+  --accent-soft: rgba(251, 113, 133, 0.14);
+}

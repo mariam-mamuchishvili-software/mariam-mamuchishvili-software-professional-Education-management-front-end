@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router";
+import "./EntityCardShell.css";
 
 interface MetaRow {
   label: string;
@@ -12,35 +13,30 @@ interface EntityCardShellProps {
   to: string;
   meta: MetaRow[];
   eyebrow?: string;
+  /** Scoped class name (e.g. "college-card") that sets the entity's accent color. */
+  accentClassName?: string;
 }
 
-export function EntityCardShell({ title, to, meta, eyebrow }: EntityCardShellProps) {
+export function EntityCardShell({ title, to, meta, eyebrow, accentClassName }: EntityCardShellProps) {
   return (
-    <div className="flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-card transition-shadow hover:shadow-card-hover dark:border-slate-800 dark:bg-slate-900 dark:shadow-none sm:p-6">
+    <div className={`entity-card-shell${accentClassName ? ` ${accentClassName}` : ""}`}>
       <div>
-        {eyebrow && (
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-brand-600 dark:text-brand-400">
-            {eyebrow}
-          </p>
-        )}
-        <h3 className="truncate text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
+        {eyebrow && <p className="entity-card-shell__eyebrow">{eyebrow}</p>}
+        <h3 className="entity-card-shell__title">{title}</h3>
 
-        <dl className="mt-3 flex flex-col gap-1.5 text-sm">
+        <dl className="entity-card-shell__meta">
           {meta.map((row) => (
-            <div key={row.label} className="flex gap-1.5 truncate">
-              <dt className="shrink-0 font-medium text-slate-500 dark:text-slate-400">{row.label}:</dt>
-              <dd className="truncate text-slate-600 dark:text-slate-300">{row.value ?? "—"}</dd>
+            <div key={row.label} className="entity-card-shell__meta-row">
+              <dt className="entity-card-shell__meta-label">{row.label}:</dt>
+              <dd className="entity-card-shell__meta-value">{row.value ?? "—"}</dd>
             </div>
           ))}
         </dl>
       </div>
 
-      <Link
-        to={to}
-        className="mt-5 flex items-center justify-center gap-1.5 rounded-lg border border-brand-100 bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700 transition-colors hover:bg-brand-100 dark:border-brand-800 dark:bg-brand-500/10 dark:text-brand-300 dark:hover:bg-brand-500/20"
-      >
+      <Link to={to} className="entity-card-shell__link">
         ვრცლად
-        <ArrowRight className="size-4" aria-hidden="true" />
+        <ArrowRight className="entity-card-shell__link-icon" aria-hidden="true" />
       </Link>
     </div>
   );

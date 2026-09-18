@@ -1,0 +1,11 @@
+/* Accent identity for CollegeCard, layered on top of EntityCardShell's base design. */
+
+.college-card {
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+}
+
+html.dark .college-card {
+  --accent: #818cf8;
+  --accent-soft: rgba(129, 140, 248, 0.14);
+}

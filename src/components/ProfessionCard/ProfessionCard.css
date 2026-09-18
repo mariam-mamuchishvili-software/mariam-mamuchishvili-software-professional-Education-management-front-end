@@ -1,0 +1,11 @@
+/* Accent identity for ProfessionCard, layered on top of EntityCardShell's base design. */
+
+.profession-card {
+  --accent: #d97706;
+  --accent-soft: rgba(217, 119, 6, 0.1);
+}
+
+html.dark .profession-card {
+  --accent: #fbbf24;
+  --accent-soft: rgba(251, 191, 36, 0.14);
+}
