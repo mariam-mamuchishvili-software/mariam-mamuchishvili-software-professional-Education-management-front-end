@@ -1,5 +1,7 @@
 // types/teacher.types.ts
 
+import type { SocialLink } from "./social.types";
+
 export interface CollegeRef {
   id: number;
   name: string;
@@ -11,6 +13,13 @@ export interface ModuleRef {
   code?: string;
 }
 
+export interface TeacherDetail {
+  id: number;
+  biography?: string | null;
+  additional_information?: string | null;
+  social_links?: SocialLink[];
+}
+
 export type TeacherInclude = "colleges" | "modules";
 
 export interface Teacher {
@@ -20,6 +29,7 @@ export interface Teacher {
   email: string;
   phone: string;
   specialization: string;
+  detail?: TeacherDetail | null;
   colleges?: CollegeRef[];
   modules?: ModuleRef[];
   created_at?: string;

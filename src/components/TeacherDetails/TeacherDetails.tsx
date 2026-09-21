@@ -3,6 +3,7 @@ import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
 import { InfoItem } from "../InfoItem/InfoItem";
 import { RelatedDataToggles } from "../RelatedDataToggles/RelatedDataToggles";
 import { RelationSection } from "../RelationSection/RelationSection";
+import { SocialLinks } from "../SocialLinks/SocialLinks";
 import type { TeacherDetailsProps, TeacherInclude } from "../../types/teacher.types";
 
 const INCLUDE_OPTIONS: { key: TeacherInclude; label: string }[] = [
@@ -38,6 +39,8 @@ export function TeacherDetails({ teacher, backHref, selectedIncludes, onToggleIn
         />
         <InfoItem label="სპეციალობა" value={teacher.specialization} />
       </div>
+
+      <SocialLinks links={teacher.detail?.social_links} />
 
       <RelatedDataToggles options={INCLUDE_OPTIONS} selected={selectedIncludes} onToggle={onToggleInclude} />
 
