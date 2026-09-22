@@ -2,6 +2,7 @@
 
 import type { Group } from "./group.types";
 import type { Profession } from "./profession.types";
+import type { Slide } from "./slide.types";
 import type { SocialLink } from "./social.types";
 
 export interface Teacher {
@@ -30,6 +31,7 @@ export interface College {
   phone: string;
   website: string;
   poster?: string | null;
+  slides?: Slide[];
   latitude?: number | null;
   longitude?: number | null;
   detail?: CollegeDetail | null;

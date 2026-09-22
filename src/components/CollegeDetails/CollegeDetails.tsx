@@ -2,6 +2,7 @@ import { Calendar, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { CollegeLocationMap } from "../CollegeLocationMap/CollegeLocationMap";
 import { CollegePoster } from "../CollegePoster/CollegePoster";
 import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
+import { GallerySlider } from "../GallerySlider/GallerySlider";
 import { GroupCard } from "../GroupCard/GroupCard";
 import { InfoItem } from "../InfoItem/InfoItem";
 import { ProfessionCard } from "../ProfessionCard/ProfessionCard";
@@ -30,6 +31,7 @@ export function CollegeDetails({ college, backHref, selectedIncludes, onToggleIn
         <div className="flex flex-col gap-4 lg:col-span-2">
           <CollegePoster posterUrl={college.poster} name={college.name} />
           <SocialLinks links={college.detail?.social_links} />
+          <GallerySlider slides={college.slides || []} />
         </div>
 
         {/* Info panels — ~60% on desktop */}
