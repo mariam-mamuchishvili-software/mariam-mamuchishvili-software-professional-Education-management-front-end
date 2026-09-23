@@ -31,6 +31,7 @@ export interface College {
   phone: string;
   website: string;
   poster?: string | null;
+  logo?: string | null;
   slides?: Slide[];
   latitude?: number | null;
   longitude?: number | null;
