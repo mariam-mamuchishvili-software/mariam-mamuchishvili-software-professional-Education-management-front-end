@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { getModule } from "../api/modules.api";
 import { ModuleDetails } from "../components/ModuleDetails/ModuleDetails";
 import { useAsync } from "../hooks/useAsync";
+import { useRetainedItem } from "../hooks/useRetainedItem";
 import { Breadcrumbs } from "../partials/Breadcrumbs";
 import { EmptyState } from "../partials/EmptyState";
 import { ErrorState } from "../partials/ErrorState";
@@ -16,6 +17,7 @@ export function ModuleDetailsPage() {
     (signal) => getModule(id, selectedIncludes, signal),
     [id, selectedIncludes.join(",")],
   );
+  const { item: module, isRefreshing } = useRetainedItem(state.data?.data, state.status === "loading", id);
 
   function toggleInclude(include: ModuleInclude) {
     setSelectedIncludes((prev) =>
@@ -29,24 +31,26 @@ export function ModuleDetailsPage() {
         items={[
           { label: "მთავარი", href: "/" },
           { label: "მოდულები", href: "/modules" },
-          { label: state.status === "success" ? state.data.data.name : "..." },
+          { label: module ? module.name : "..." },
         ]}
       />
 
-      {state.status === "loading" && <LoadingState />}
+      {state.status === "loading" && !module && <LoadingState />}
       {state.status === "error" &&
         (state.errorStatus === 404 ? (
           <EmptyState title="მოდული ვერ მოიძებნა" description="მოთხოვნილი მოდული არ არსებობს ან წაშლილია." />
         ) : (
           <ErrorState message={state.error} />
         ))}
-      {state.status === "success" && (
-        <ModuleDetails
-          module={state.data.data}
-          backHref="/modules"
-          selectedIncludes={selectedIncludes}
-          onToggleInclude={toggleInclude}
-        />
+      {module && (
+        <div aria-busy={isRefreshing} className={`transition-opacity ${isRefreshing ? "opacity-70" : ""}`}>
+          <ModuleDetails
+            module={module}
+            backHref="/modules"
+            selectedIncludes={selectedIncludes}
+            onToggleInclude={toggleInclude}
+          />
+        </div>
       )}
     </div>
   );

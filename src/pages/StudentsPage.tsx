@@ -14,7 +14,12 @@ export function StudentsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <PageHeader title="სტუდენტები" description="სასწავლო ჯგუფებში ჩართული სტუდენტების სია." />
+      <PageHeader
+        title="სტუდენტები"
+        description="სასწავლო ჯგუფებში ჩართული სტუდენტების სია."
+        backHref="/"
+        accent="rose"
+      />
 
       {state.status === "loading" && <LoadingState />}
       {state.status === "error" && <ErrorState message={state.error} />}

@@ -14,7 +14,12 @@ export function GroupsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <PageHeader title="ჯგუფები" description="პროფესიების ფარგლებში დაკომპლექტებული სასწავლო ჯგუფების სია." />
+      <PageHeader
+        title="ჯგუფები"
+        description="პროფესიების ფარგლებში დაკომპლექტებული სასწავლო ჯგუფების სია."
+        backHref="/"
+        accent="emerald"
+      />
 
       {state.status === "loading" && <LoadingState />}
       {state.status === "error" && <ErrorState message={state.error} />}

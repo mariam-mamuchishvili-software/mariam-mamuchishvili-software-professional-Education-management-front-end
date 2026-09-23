@@ -10,11 +10,16 @@ import { Pagination } from "../partials/Pagination";
 
 export function ProfessionsPage() {
   const { skip, limit, page, setPage } = usePagination();
-  const state = useAsync((signal) => getProfessions({ skip, limit }, signal), [skip, limit]);
+  const state = useAsync((signal) => getProfessions({ skip, limit }, ["colleges"], signal), [skip, limit]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <PageHeader title="პროფესიები" description="პლატფორმაზე ხელმისაწვდომი პროფესიული პროგრამების სია." />
+      <PageHeader
+        title="პროფესიები"
+        description="პლატფორმაზე ხელმისაწვდომი პროფესიული პროგრამების სია."
+        backHref="/"
+        accent="amber"
+      />
 
       {state.status === "loading" && <LoadingState />}
       {state.status === "error" && <ErrorState message={state.error} />}

@@ -7,7 +7,7 @@ import { useAsync } from "../hooks/useAsync";
 import { LoadingState } from "../partials/LoadingState";
 
 export function FeaturedProfessions() {
-  const state = useAsync((signal) => getProfessions({ skip: 0, limit: 6 }, signal), []);
+  const state = useAsync((signal) => getProfessions({ skip: 0, limit: 6 }, ["colleges"], signal), []);
 
   if (state.status === "loading") return <LoadingState label="პროფესიები იტვირთება..." />;
   if (state.status === "error" || state.data.data.length === 0) return null;

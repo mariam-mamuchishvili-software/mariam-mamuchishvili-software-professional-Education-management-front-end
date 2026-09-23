@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { getProfession } from "../api/professions.api";
 import { ProfessionDetails } from "../components/ProfessionDetails/ProfessionDetails";
 import { useAsync } from "../hooks/useAsync";
+import { useRetainedItem } from "../hooks/useRetainedItem";
 import { Breadcrumbs } from "../partials/Breadcrumbs";
 import { EmptyState } from "../partials/EmptyState";
 import { ErrorState } from "../partials/ErrorState";
@@ -17,6 +18,8 @@ export function ProfessionDetailsPage() {
     [id, selectedIncludes.join(",")],
   );
 
+  const { item: profession, isRefreshing } = useRetainedItem(state.data?.data, state.status === "loading", id);
+
   function toggleInclude(include: ProfessionInclude) {
     setSelectedIncludes((prev) =>
       prev.includes(include) ? prev.filter((item) => item !== include) : [...prev, include],
@@ -29,24 +32,26 @@ export function ProfessionDetailsPage() {
         items={[
           { label: "მთავარი", href: "/" },
           { label: "პროფესიები", href: "/professions" },
-          { label: state.status === "success" ? state.data.data.name : "..." },
+          { label: profession ? profession.name : "..." },
         ]}
       />
 
-      {state.status === "loading" && <LoadingState />}
+      {state.status === "loading" && !profession && <LoadingState />}
       {state.status === "error" &&
         (state.errorStatus === 404 ? (
           <EmptyState title="პროფესია ვერ მოიძებნა" description="მოთხოვნილი პროფესია არ არსებობს ან წაშლილია." />
         ) : (
           <ErrorState message={state.error} />
         ))}
-      {state.status === "success" && (
-        <ProfessionDetails
-          profession={state.data.data}
-          backHref="/professions"
-          selectedIncludes={selectedIncludes}
-          onToggleInclude={toggleInclude}
-        />
+      {profession && (
+        <div aria-busy={isRefreshing} className={`transition-opacity ${isRefreshing ? "opacity-70" : ""}`}>
+          <ProfessionDetails
+            profession={profession}
+            backHref="/professions"
+            selectedIncludes={selectedIncludes}
+            onToggleInclude={toggleInclude}
+          />
+        </div>
       )}
     </div>
   );

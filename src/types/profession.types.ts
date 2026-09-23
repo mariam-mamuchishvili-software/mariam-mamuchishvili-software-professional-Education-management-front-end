@@ -1,5 +1,7 @@
 // types/profession.types.ts
 
+import type { College } from "./college.types";
+
 export interface ModuleRef {
   id: number;
   name: string;
@@ -12,7 +14,7 @@ export interface GroupRef {
   code?: string;
 }
 
-export type ProfessionInclude = "modules" | "groups";
+export type ProfessionInclude = "modules" | "groups" | "colleges";
 
 export interface Profession {
   id: number;
@@ -23,6 +25,7 @@ export interface Profession {
   qualification?: string;
   modules?: ModuleRef[];
   groups?: GroupRef[];
+  colleges?: College[];
   created_at?: string;
   updated_at?: string;
 }
