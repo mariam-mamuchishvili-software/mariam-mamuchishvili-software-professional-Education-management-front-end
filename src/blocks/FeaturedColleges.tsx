@@ -13,7 +13,7 @@ export function FeaturedColleges() {
   if (state.status === "error" || state.data.data.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section className="w-full px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-8 flex items-end justify-between">
         <div>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">კოლეჯები</h2>
@@ -28,7 +28,7 @@ export function FeaturedColleges() {
         </Link>
       </div>
 
-      <CardCarousel>
+      <CardCarousel autoplay autoplayDelay={3500} fullWidth>
         {state.data.data.map((college) => (
           <CollegeCard key={college.id} college={college} />
         ))}

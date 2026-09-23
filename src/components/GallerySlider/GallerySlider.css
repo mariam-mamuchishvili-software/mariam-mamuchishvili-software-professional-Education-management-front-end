@@ -49,9 +49,9 @@
 /* Swiper navigation arrows */
 .gallery-slider .swiper-button-next,
 .gallery-slider .swiper-button-prev {
-  width: 2.25rem;
-  height: 2.25rem;
-  margin-top: -1.125rem;
+  width: 2rem;
+  height: 2rem;
+  margin-top: -1rem;
   color: #1e293b;
   background-color: rgba(255, 255, 255, 0.85);
   border: 1px solid #e2e8f0;
@@ -69,10 +69,11 @@
   background-color: #ffffff;
 }
 
-.gallery-slider .swiper-button-next::after,
-.gallery-slider .swiper-button-prev::after {
-  font-size: 0.85rem;
-  font-weight: 700;
+/* Swiper v11+ renders an SVG icon that fills the whole button by default */
+.gallery-slider .swiper-button-next svg,
+.gallery-slider .swiper-button-prev svg {
+  width: 0.45rem;
+  height: 0.75rem;
 }
 
 html.dark .gallery-slider .swiper-button-next,

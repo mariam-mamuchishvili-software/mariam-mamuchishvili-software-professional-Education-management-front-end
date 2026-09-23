@@ -1,31 +1,53 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 import type { Swiper as SwiperType } from "swiper";
-import { Navigation } from "swiper/modules";
+import type { SwiperOptions } from "swiper/types";
+import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 
 interface CardCarouselProps {
   children: ReactNode[];
+  /** Auto-advance every `autoplayDelay` ms, pausing while hovered. */
+  autoplay?: boolean;
+  autoplayDelay?: number;
+  /** Show more cards per view on wide screens (for full-width containers). */
+  fullWidth?: boolean;
 }
 
-export function CardCarousel({ children }: CardCarouselProps) {
+export function CardCarousel({
+  children,
+  autoplay = false,
+  autoplayDelay = 3500,
+  fullWidth = false,
+}: CardCarouselProps) {
   const swiperRef = useRef<SwiperType | null>(null);
 
+  const breakpoints: SwiperOptions["breakpoints"] = {
+    640: { slidesPerView: 2, spaceBetween: 20 },
+    1024: { slidesPerView: 3, spaceBetween: 24 },
+  };
+  if (fullWidth) breakpoints[1440] = { slidesPerView: 4, spaceBetween: 24 };
+
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Swiper
-        modules={[Navigation]}
+        modules={[Navigation, Autoplay]}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
         spaceBetween={20}
         slidesPerView={1.1}
-        breakpoints={{
-          640: { slidesPerView: 2, spaceBetween: 20 },
-          1024: { slidesPerView: 3, spaceBetween: 24 },
-        }}
+        breakpoints={breakpoints}
+        autoplay={
+          autoplay && {
+            delay: autoplayDelay,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }
+        }
+        rewind={autoplay}
         className="!px-1 !py-1"
       >
         {children.map((child, index) => (
