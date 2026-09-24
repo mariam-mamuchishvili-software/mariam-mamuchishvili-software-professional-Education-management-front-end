@@ -7,6 +7,7 @@ import {
   RelationTiles,
 } from "../DetailsDashboard/DetailsDashboard";
 import { iconSoftClasses, itemHoverClasses } from "../DetailsDashboard/accents";
+import { StudentPhoto } from "../StudentPhoto/StudentPhoto";
 import { formatDate } from "../../utils/formatDate";
 import type { StudentDetailsProps, StudentToggleInclude } from "../../types/student.types";
 
@@ -31,33 +32,42 @@ export function StudentDetails({ student, backHref, selectedIncludes, onToggleIn
         backHref={backHref}
       />
 
-      <OverviewPanel
-        accent={ACCENT}
-        detailsIcon={UserRound}
-        details={[
-          {
-            icon: Mail,
-            label: "ელ-ფოსტა",
-            value: student.email && (
-              <a href={`mailto:${student.email}`} className={LINK_CLASSES}>
-                {student.email}
-              </a>
-            ),
-          },
-          {
-            icon: Phone,
-            label: "ტელეფონი",
-            value: student.phone && (
-              <a href={`tel:${student.phone}`} className={LINK_CLASSES}>
-                {student.phone}
-              </a>
-            ),
-          },
-          { icon: Cake, label: "დაბადების თარიღი", value: formatDate(student.birth_date) },
-          { icon: Calendar, label: "დამატების თარიღი", value: formatDate(student.created_at) },
-          { icon: Calendar, label: "ბოლო განახლება", value: formatDate(student.updated_at) },
-        ]}
-      />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-start">
+        {/* Photo — ~40% on desktop, like the college poster */}
+        <div className="lg:col-span-2">
+          <StudentPhoto student={student} />
+        </div>
+
+        <div className="min-w-0 lg:col-span-3">
+          <OverviewPanel
+            accent={ACCENT}
+            detailsIcon={UserRound}
+            details={[
+              {
+                icon: Mail,
+                label: "ელ-ფოსტა",
+                value: student.email && (
+                  <a href={`mailto:${student.email}`} className={LINK_CLASSES}>
+                    {student.email}
+                  </a>
+                ),
+              },
+              {
+                icon: Phone,
+                label: "ტელეფონი",
+                value: student.phone && (
+                  <a href={`tel:${student.phone}`} className={LINK_CLASSES}>
+                    {student.phone}
+                  </a>
+                ),
+              },
+              { icon: Cake, label: "დაბადების თარიღი", value: formatDate(student.birth_date) },
+              { icon: Calendar, label: "დამატების თარიღი", value: formatDate(student.created_at) },
+              { icon: Calendar, label: "ბოლო განახლება", value: formatDate(student.updated_at) },
+            ]}
+          />
+        </div>
+      </div>
 
       {/* Colleges are always loaded, so they are shown directly rather than behind a tile toggle. */}
       <RelationPanel

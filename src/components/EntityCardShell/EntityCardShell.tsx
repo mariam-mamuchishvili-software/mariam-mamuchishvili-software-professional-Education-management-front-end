@@ -15,14 +15,17 @@ interface EntityCardShellProps {
   eyebrow?: string;
   /** Scoped class name (e.g. "college-card") that sets the entity's accent color. */
   accentClassName?: string;
+  /** Visual rendered above the title (e.g. a photo or poster thumbnail). */
+  media?: ReactNode;
   /** Extra content rendered below the meta rows (e.g. related-entity avatars). */
   children?: ReactNode;
 }
 
-export function EntityCardShell({ title, to, meta, eyebrow, accentClassName, children }: EntityCardShellProps) {
+export function EntityCardShell({ title, to, meta, eyebrow, accentClassName, media, children }: EntityCardShellProps) {
   return (
     <div className={`entity-card-shell${accentClassName ? ` ${accentClassName}` : ""}`}>
       <div>
+        {media && <div className="entity-card-shell__media">{media}</div>}
         {eyebrow && <p className="entity-card-shell__eyebrow">{eyebrow}</p>}
         <h3 className="entity-card-shell__title">{title}</h3>
 

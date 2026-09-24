@@ -26,6 +26,8 @@ export interface Student {
   email: string;
   phone: string;
   birth_date: string;
+  /** Cloudinary secure URL of the student's photo. */
+  image?: string | null;
   groups?: Group[];
   modules?: ModuleRef[];
   colleges?: College[];

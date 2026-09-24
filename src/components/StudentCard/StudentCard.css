@@ -2,10 +2,68 @@
 
 .student-card {
   --accent: #e11d48;
+  --accent-hover: #be123c;
   --accent-soft: rgba(225, 29, 72, 0.1);
 }
 
 html.dark .student-card {
   --accent: #fb7185;
+  --accent-hover: #e11d48;
   --accent-soft: rgba(251, 113, 133, 0.14);
+}
+
+/* Photo thumbnail (mirrors CollegeCard's poster thumb) */
+
+.student-card__photo {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--accent-soft);
+}
+
+.student-card__photo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.student-card:hover .student-card__photo-img {
+  transform: scale(1.04);
+}
+
+.student-card__photo-fallback {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+}
+
+.student-card__initials {
+  display: flex;
+  width: 4.5rem;
+  height: 4.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-card__photo-img {
+    transition: none;
+  }
+
+  .student-card:hover .student-card__photo-img {
+    transform: none;
+  }
 }
