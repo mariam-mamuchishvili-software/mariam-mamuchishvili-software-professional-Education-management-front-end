@@ -10,7 +10,7 @@ import { Pagination } from "../partials/Pagination";
 
 export function StudentsPage() {
   const { skip, limit, page, setPage } = usePagination();
-  const state = useAsync((signal) => getStudents({ skip, limit }, signal), [skip, limit]);
+  const state = useAsync((signal) => getStudents({ skip, limit }, ["colleges"], signal), [skip, limit]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

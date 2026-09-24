@@ -1,3 +1,4 @@
+import { CollegeAvatars } from "../CollegeAvatars/CollegeAvatars";
 import { EntityCardShell } from "../EntityCardShell/EntityCardShell";
 import type { StudentCardProps } from "../../types/student.types";
 import "./StudentCard.css";
@@ -12,6 +13,8 @@ export function StudentCard({ student }: StudentCardProps) {
         { label: "ელ-ფოსტა", value: student.email },
         { label: "ტელეფონი", value: student.phone },
       ]}
-    />
+    >
+      {student.colleges && student.colleges.length > 0 && <CollegeAvatars colleges={student.colleges} />}
+    </EntityCardShell>
   );
 }

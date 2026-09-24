@@ -2,7 +2,7 @@
  * Accent palettes for the dashboard details pages. Each entity picks an accent; class names are spelled out in full per accent so
  * Tailwind can detect them.
  */
-export type DashboardAccent = "amber" | "sky";
+export type DashboardAccent = "amber" | "sky" | "rose";
 
 export const ACCENTS: Record<
   DashboardAccent,
@@ -44,6 +44,19 @@ export const ACCENTS: Record<
     tileCheckActive: "border-sky-500 bg-sky-500 text-white dark:border-sky-400 dark:bg-sky-400 dark:text-slate-900",
     tileCta: "text-sky-600 dark:text-sky-400",
     itemHover: "hover:border-sky-300 hover:bg-sky-50/60 dark:hover:border-sky-500/40 dark:hover:bg-sky-500/5",
+  },
+  rose: {
+    hero: "from-rose-500 via-pink-500 to-fuchsia-500 shadow-pink-500/20 dark:from-rose-600 dark:via-pink-700 dark:to-fuchsia-800",
+    heroGlow: "bg-fuchsia-300/25",
+    iconSoft: "bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300",
+    eyebrow: "text-rose-600 dark:text-rose-400",
+    tileActive: "border-rose-400 bg-rose-50 dark:border-rose-500/60 dark:bg-rose-500/10",
+    tileIconActive: "bg-rose-500 text-white dark:bg-rose-400 dark:text-slate-900",
+    tileIconHover:
+      "group-hover:bg-rose-100 group-hover:text-rose-600 dark:group-hover:bg-rose-500/15 dark:group-hover:text-rose-300",
+    tileCheckActive: "border-rose-500 bg-rose-500 text-white dark:border-rose-400 dark:bg-rose-400 dark:text-slate-900",
+    tileCta: "text-rose-600 dark:text-rose-400",
+    itemHover: "hover:border-rose-300 hover:bg-rose-50/60 dark:hover:border-rose-500/40 dark:hover:bg-rose-500/5",
   },
 };
 

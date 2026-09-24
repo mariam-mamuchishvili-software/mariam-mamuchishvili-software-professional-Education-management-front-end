@@ -1,5 +1,7 @@
 // types/student.types.ts
 
+import type { College } from "./college.types";
+
 export interface Group {
   id: number;
   name: string;
@@ -12,7 +14,10 @@ export interface ModuleRef {
   code?: string;
 }
 
-export type StudentInclude = "groups" | "modules";
+export type StudentInclude = "groups" | "modules" | "colleges";
+
+/** Includes the user can toggle on the details page (colleges are always loaded). */
+export type StudentToggleInclude = Exclude<StudentInclude, "colleges">;
 
 export interface Student {
   id: number;
@@ -23,6 +28,7 @@ export interface Student {
   birth_date: string;
   groups?: Group[];
   modules?: ModuleRef[];
+  colleges?: College[];
   created_at?: string;
   updated_at?: string;
 }
@@ -34,6 +40,6 @@ export interface StudentCardProps {
 export interface StudentDetailsProps {
   student: Student;
   backHref: string;
-  selectedIncludes: StudentInclude[];
-  onToggleInclude: (include: StudentInclude) => void;
+  selectedIncludes: StudentToggleInclude[];
+  onToggleInclude: (include: StudentToggleInclude) => void;
 }

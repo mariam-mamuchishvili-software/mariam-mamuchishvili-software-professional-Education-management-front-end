@@ -98,7 +98,7 @@ export function PanelHeading({
   );
 }
 
-/** One panel: description on top, key details as small tiles below. */
+/** One panel: description on top (optional), key details as small tiles below. */
 export function OverviewPanel({
   accent,
   descriptionIcon,
@@ -108,8 +108,9 @@ export function OverviewPanel({
   details,
 }: {
   accent: DashboardAccent;
-  descriptionIcon: LucideIcon;
-  descriptionTitle: string;
+  /** Omit the icon/title for entities without a description — only the details block is rendered. */
+  descriptionIcon?: LucideIcon;
+  descriptionTitle?: string;
   description?: string;
   detailsIcon: LucideIcon;
   details: { icon: LucideIcon; label: string; value?: ReactNode }[];
@@ -118,14 +119,18 @@ export function OverviewPanel({
 
   return (
     <div className={PANEL_CLASSES}>
-      <PanelHeading accent={accent} icon={descriptionIcon} eyebrow="მიმოხილვა" title={descriptionTitle} />
-      {description ? (
-        <p className="mt-5 leading-relaxed whitespace-pre-line text-slate-600 dark:text-slate-300">{description}</p>
-      ) : (
-        <p className="mt-5 text-sm text-slate-400 dark:text-slate-500">აღწერა ჯერ არ არის დამატებული.</p>
+      {descriptionIcon && descriptionTitle && (
+        <div className="mb-6">
+          <PanelHeading accent={accent} icon={descriptionIcon} eyebrow="მიმოხილვა" title={descriptionTitle} />
+          {description ? (
+            <p className="mt-5 leading-relaxed whitespace-pre-line text-slate-600 dark:text-slate-300">{description}</p>
+          ) : (
+            <p className="mt-5 text-sm text-slate-400 dark:text-slate-500">აღწერა ჯერ არ არის დამატებული.</p>
+          )}
+        </div>
       )}
 
-      <div className="mt-6 rounded-2xl border border-slate-200/80 bg-slate-50/70 p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-950/40">
+      <div className="rounded-2xl border border-slate-200/80 bg-slate-50/70 p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-950/40">
         <PanelHeading accent={accent} icon={detailsIcon} eyebrow="დეტალები" title="ძირითადი ინფორმაცია" />
         <dl className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {details.map(({ icon: Icon, label, value }) => (
