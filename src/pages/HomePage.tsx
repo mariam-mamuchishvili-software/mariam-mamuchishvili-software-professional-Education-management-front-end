@@ -3,6 +3,7 @@ import { EducationStats } from "../blocks/EducationStats";
 import { FeaturedColleges } from "../blocks/FeaturedColleges";
 import { FeaturedModules } from "../blocks/FeaturedModules";
 import { FeaturedProfessions } from "../blocks/FeaturedProfessions";
+import { FeaturedTrainings } from "../blocks/FeaturedTrainings";
 import { HeroSection } from "../blocks/HeroSection";
 
 export function HomePage() {
@@ -12,6 +13,7 @@ export function HomePage() {
       <EducationStats />
       <FeaturedColleges />
       <FeaturedProfessions />
+      <FeaturedTrainings />
       <FeaturedModules />
       <CallToAction />
     </div>
