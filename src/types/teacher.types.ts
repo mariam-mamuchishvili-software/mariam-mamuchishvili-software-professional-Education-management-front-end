@@ -29,6 +29,8 @@ export interface Teacher {
   email: string;
   phone: string;
   specialization: string;
+  /** Cloudinary secure URL of the teacher's photo. */
+  image?: string | null;
   detail?: TeacherDetail | null;
   colleges?: CollegeRef[];
   modules?: ModuleRef[];
