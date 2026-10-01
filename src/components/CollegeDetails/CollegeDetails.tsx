@@ -1,22 +1,18 @@
-import { Calendar, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { Briefcase, Calendar, Globe, GraduationCap, Mail, MapPin, Phone, Users } from "lucide-react";
 import { CollegeLocationMap } from "../CollegeLocationMap/CollegeLocationMap";
 import { CollegePoster } from "../CollegePoster/CollegePoster";
+import { RelationPanel, RelationTiles } from "../DetailsDashboard/DetailsDashboard";
+import { itemHoverClasses } from "../DetailsDashboard/accents";
 import { DetailsHeader } from "../DetailsHeader/DetailsHeader";
 import { GallerySlider } from "../GallerySlider/GallerySlider";
 import { GroupCard } from "../GroupCard/GroupCard";
 import { InfoItem } from "../InfoItem/InfoItem";
 import { ProfessionCard } from "../ProfessionCard/ProfessionCard";
-import { RelatedDataToggles } from "../RelatedDataToggles/RelatedDataToggles";
-import { RelationSection } from "../RelationSection/RelationSection";
 import { SocialLinks } from "../SocialLinks/SocialLinks";
 import { formatDate } from "../../utils/formatDate";
 import type { CollegeDetailsProps, CollegeInclude } from "../../types/college.types";
 
-const INCLUDE_OPTIONS: { key: CollegeInclude; label: string }[] = [
-  { key: "teachers", label: "მასწავლებლები" },
-  { key: "groups", label: "ჯგუფები" },
-  { key: "professions", label: "პროფესიები" },
-];
+const ACCENT = "amber";
 
 const PANEL_CLASSES =
   "rounded-2xl border border-slate-200 bg-white p-6 shadow-card dark:border-slate-800 dark:bg-slate-900 sm:p-8";
@@ -106,71 +102,78 @@ export function CollegeDetails({ college, backHref, selectedIncludes, onToggleIn
       </div>
 
       {/* Full-width related information */}
-      <div className={PANEL_CLASSES}>
+      <section className="space-y-4">
         <p className="text-xs font-semibold tracking-wide text-brand-600 uppercase dark:text-brand-400">
           დაკავშირებული ინფორმაცია
         </p>
 
-        <div className="mt-5">
-          <RelatedDataToggles options={INCLUDE_OPTIONS} selected={selectedIncludes} onToggle={onToggleInclude} />
-        </div>
+        <RelationTiles<CollegeInclude>
+          accent={ACCENT}
+          tiles={[
+            { key: "teachers", label: "მასწავლებლები", icon: GraduationCap, count: college.teachers?.length },
+            { key: "groups", label: "ჯგუფები", icon: Users, count: college.groups?.length },
+            { key: "professions", label: "პროფესიები", icon: Briefcase, count: college.professions?.length },
+          ]}
+          selected={selectedIncludes}
+          onToggle={onToggleInclude}
+        />
+      </section>
 
-        {selectedIncludes.includes("teachers") && (
-          <div className="mt-6">
-            <RelationSection
-              title="მასწავლებლები"
-              count={college.teachers?.length ?? 0}
-              emptyText="მასწავლებლები ჯერ არ არიან დამატებული."
-            >
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {college.teachers?.map((teacher) => (
-                  <div
-                    key={teacher.id}
-                    className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950/40"
-                  >
-                    <p className="font-medium text-slate-800 dark:text-slate-200">
-                      {teacher.first_name} {teacher.last_name}
-                    </p>
-                    <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{teacher.email}</p>
-                  </div>
-                ))}
+      {selectedIncludes.includes("teachers") && (
+        <RelationPanel
+          accent={ACCENT}
+          icon={GraduationCap}
+          title="მასწავლებლები"
+          count={college.teachers?.length ?? 0}
+          emptyText="მასწავლებლები ჯერ არ არიან დამატებული."
+        >
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {college.teachers?.map((teacher) => (
+              <div
+                key={teacher.id}
+                className={`rounded-xl border border-slate-200 bg-slate-50/60 p-4 transition-colors dark:border-slate-800 dark:bg-slate-950/40 ${itemHoverClasses(ACCENT)}`}
+              >
+                <p className="font-medium text-slate-800 dark:text-slate-200">
+                  {teacher.first_name} {teacher.last_name}
+                </p>
+                <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{teacher.email}</p>
               </div>
-            </RelationSection>
+            ))}
           </div>
-        )}
+        </RelationPanel>
+      )}
 
-        {selectedIncludes.includes("groups") && (
-          <div className="mt-6">
-            <RelationSection
-              title="ჯგუფები"
-              count={college.groups?.length ?? 0}
-              emptyText="ჯგუფები ჯერ არ მოიძებნა."
-            >
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {college.groups?.map((group) => (
-                  <GroupCard key={group.id} group={group} />
-                ))}
-              </div>
-            </RelationSection>
+      {selectedIncludes.includes("groups") && (
+        <RelationPanel
+          accent={ACCENT}
+          icon={Users}
+          title="ჯგუფები"
+          count={college.groups?.length ?? 0}
+          emptyText="ჯგუფები ჯერ არ მოიძებნა."
+        >
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {college.groups?.map((group) => (
+              <GroupCard key={group.id} group={group} />
+            ))}
           </div>
-        )}
+        </RelationPanel>
+      )}
 
-        {selectedIncludes.includes("professions") && (
-          <div className="mt-6">
-            <RelationSection
-              title="პროფესიები"
-              count={college.professions?.length ?? 0}
-              emptyText="პროფესიები ჯერ არ მოიძებნა."
-            >
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {college.professions?.map((profession) => (
-                  <ProfessionCard key={profession.id} profession={profession} />
-                ))}
-              </div>
-            </RelationSection>
+      {selectedIncludes.includes("professions") && (
+        <RelationPanel
+          accent={ACCENT}
+          icon={Briefcase}
+          title="პროფესიები"
+          count={college.professions?.length ?? 0}
+          emptyText="პროფესიები ჯერ არ მოიძებნა."
+        >
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {college.professions?.map((profession) => (
+              <ProfessionCard key={profession.id} profession={profession} />
+            ))}
           </div>
-        )}
-      </div>
+        </RelationPanel>
+      )}
     </div>
   );
 }
