@@ -30,13 +30,13 @@ export function buildIncludeQuery(include?: string[]): string {
   return include && include.length > 0 ? `?include=${include.join(",")}` : "";
 }
 
-export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
+async function request<T>(path: string, init: RequestInit): Promise<T> {
   let response: Response;
 
   try {
     response = await fetch(`${BASE_URL}${path}`, {
-      headers: { Accept: "application/json" },
-      signal,
+      ...init,
+      headers: { Accept: "application/json", ...init.headers },
     });
   } catch {
     throw new ApiError("სერვერთან დაკავშირება ვერ მოხერხდა.", 0);
@@ -54,4 +54,22 @@ export async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> 
   }
 
   return (await response.json()) as T;
+}
+
+export function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
+  return request<T>(path, { signal });
+}
+
+/**
+ * Sends multipart form data (file uploads). PHP only parses multipart bodies on POST, so
+ * PUT/PATCH are sent as POST with Laravel's `_method` override.
+ */
+export function apiSendForm<T>(
+  path: string,
+  body: FormData,
+  method: "POST" | "PUT" | "PATCH" = "POST",
+  signal?: AbortSignal,
+): Promise<T> {
+  if (method !== "POST") body.set("_method", method);
+  return request<T>(path, { method: "POST", body, signal });
 }

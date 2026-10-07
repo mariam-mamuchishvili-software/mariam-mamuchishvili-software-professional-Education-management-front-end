@@ -49,6 +49,8 @@ export interface TeacherCabinetData {
 /** Shared with every cabinet page through the layout's <Outlet context>. */
 export interface TeacherCabinetContext {
   data: TeacherCabinetData;
+  /** Merges saved fields into the loaded teacher so every page and the header reflect them. */
+  updateTeacher: (patch: Partial<CabinetTeacher>) => void;
   theme: Theme;
   toggleTheme: () => void;
 }

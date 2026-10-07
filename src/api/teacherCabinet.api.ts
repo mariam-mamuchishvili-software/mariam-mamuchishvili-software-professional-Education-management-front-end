@@ -1,8 +1,8 @@
 import { MOCK_EDUCATIONS, MOCK_TRAININGS, MOCK_WORK_EXPERIENCES } from "../mocks/teacherCabinet.mock";
 import type { CabinetTeacher, TeacherCabinetData } from "../types/teacherCabinet.types";
-import type { TeacherEducation, TeacherTraining, TeacherWorkExperience } from "../types/teacher.types";
+import type { Teacher, TeacherEducation, TeacherTraining, TeacherWorkExperience } from "../types/teacher.types";
 import { collectTeacherGroups, collectTeacherStudents } from "../utils/teacherCabinet";
-import { apiGet, buildIncludeQuery } from "./client";
+import { apiGet, apiSendForm, buildIncludeQuery } from "./client";
 import type { ApiItemResponse } from "./types";
 
 /** Nested includes the public teacher endpoint allows (see TeacherController::allowedIncludes). */
@@ -10,6 +10,13 @@ const CABINET_INCLUDES = ["colleges", "modules.professions.groups", "modules.stu
 
 export function getCabinetTeacher(id: number | string, signal?: AbortSignal) {
   return apiGet<ApiItemResponse<CabinetTeacher>>(`/teachers/${id}${buildIncludeQuery(CABINET_INCLUDES)}`, signal);
+}
+
+/** Uploads a new profile photo (stored on Cloudinary; the previous one is removed server-side). */
+export function updateTeacherPhoto(id: number | string, file: File) {
+  const body = new FormData();
+  body.append("image", file);
+  return apiSendForm<ApiItemResponse<Teacher>>(`/teachers/${id}`, body, "PUT");
 }
 
 /*

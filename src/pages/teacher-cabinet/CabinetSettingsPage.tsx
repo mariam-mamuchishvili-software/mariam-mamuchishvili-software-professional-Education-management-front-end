@@ -1,5 +1,7 @@
-import { Bell, Languages, Monitor, Moon, Palette, Sun, UserRound } from "lucide-react";
-import { useState, type FormEvent, type ReactNode } from "react";
+import { Bell, Camera, Languages, Loader2, Monitor, Moon, Palette, Sun, UserRound } from "lucide-react";
+import { useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { ApiError } from "../../api/client";
+import { updateTeacherPhoto } from "../../api/teacherCabinet.api";
 import { CabinetCard } from "../../components/TeacherCabinet/CabinetCard";
 import { CabinetPageHeader } from "../../components/TeacherCabinet/CabinetPageHeader";
 import { TeacherAvatar } from "../../components/TeacherCabinet/TeacherAvatar";
@@ -57,18 +59,51 @@ function ToggleRow({
   );
 }
 
+/** Mirrors UpdateTeacherRequest: `image`, max 4096 KB. */
+const MAX_PHOTO_BYTES = 4 * 1024 * 1024;
+
+type PhotoStatus = { kind: "idle" } | { kind: "uploading" } | { kind: "success" } | { kind: "error"; message: string };
+
 const THEME_OPTIONS: { value: Theme; label: string; icon: typeof Sun }[] = [
   { value: "light", label: "ღია", icon: Sun },
   { value: "dark", label: "მუქი", icon: Moon },
 ];
 
-/** UI only for now — nothing here is persisted to the backend yet (theme uses the existing toggle). */
+/** Only the photo is persisted for now; the rest is UI until auth exists (theme uses the existing toggle). */
 export function CabinetSettingsPage() {
-  const { data, theme, toggleTheme } = useTeacherCabinet();
+  const { data, updateTeacher, theme, toggleTheme } = useTeacherCabinet();
   const { teacher } = data;
   const [notifications, setNotifications] = useState({ email: true, groups: true, digest: false });
   const [language, setLanguage] = useState("ka");
   const [saved, setSaved] = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+  const [photoStatus, setPhotoStatus] = useState<PhotoStatus>({ kind: "idle" });
+
+  async function handlePhotoChange(event: ChangeEvent<HTMLInputElement>) {
+    event.stopPropagation();
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setPhotoStatus({ kind: "error", message: "აირჩიეთ სურათის ფაილი." });
+      return;
+    }
+    if (file.size > MAX_PHOTO_BYTES) {
+      setPhotoStatus({ kind: "error", message: "ფოტოს ზომა არ უნდა აღემატებოდეს 4 MB-ს." });
+      return;
+    }
+
+    setPhotoStatus({ kind: "uploading" });
+    try {
+      const { data: updated } = await updateTeacherPhoto(teacher.id, file);
+      updateTeacher({ image: updated.image });
+      setPhotoStatus({ kind: "success" });
+    } catch (error) {
+      const message = error instanceof ApiError ? error.message : "ფოტოს ატვირთვა ვერ მოხერხდა.";
+      setPhotoStatus({ kind: "error", message });
+    }
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -81,16 +116,38 @@ export function CabinetSettingsPage() {
 
       <CabinetCard title="პროფილის პარამეტრები" description="ძირითადი ინფორმაცია" icon={UserRound}>
         <form onSubmit={handleSubmit} onChange={() => setSaved(false)}>
-          <div className="mb-5 flex items-center gap-4">
+          <div className="mb-5 flex flex-wrap items-center gap-4">
             <TeacherAvatar teacher={teacher} size="md" />
+            <input
+              ref={photoInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handlePhotoChange}
+            />
             <button
               type="button"
-              disabled
-              title="მალე"
-              className="rounded-xl border border-slate-200 px-3.5 py-2 text-sm font-medium text-slate-600 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:text-slate-300"
+              onClick={() => photoInputRef.current?.click()}
+              disabled={photoStatus.kind === "uploading"}
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-3.5 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 disabled:cursor-wait disabled:opacity-60 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-800/60"
             >
-              ფოტოს შეცვლა
+              {photoStatus.kind === "uploading" ? (
+                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Camera className="size-4" aria-hidden="true" />
+              )}
+              {photoStatus.kind === "uploading" ? "იტვირთება..." : "ფოტოს შეცვლა"}
             </button>
+            {photoStatus.kind === "success" && (
+              <p role="status" className="text-sm text-emerald-600 dark:text-emerald-400">
+                ფოტო განახლდა.
+              </p>
+            )}
+            {photoStatus.kind === "error" && (
+              <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+                {photoStatus.message}
+              </p>
+            )}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">

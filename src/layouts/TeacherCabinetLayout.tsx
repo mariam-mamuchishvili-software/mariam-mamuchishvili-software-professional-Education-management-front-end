@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation } from "react-router";
 import { getTeacherCabinet } from "../api/teacherCabinet.api";
 import { TeacherCabinetHeader } from "../components/TeacherCabinet/TeacherCabinetHeader";
@@ -8,7 +8,7 @@ import { useAsync } from "../hooks/useAsync";
 import { useTheme } from "../hooks/useTheme";
 import { ErrorState } from "../partials/ErrorState";
 import { LoadingState } from "../partials/LoadingState";
-import type { TeacherCabinetContext } from "../types/teacherCabinet.types";
+import type { CabinetTeacher, TeacherCabinetContext } from "../types/teacherCabinet.types";
 
 /**
  * Shell for /teacher-cabinet/*: sidebar + header + routed page. Loads the cabinet data once and
@@ -20,6 +20,21 @@ export function TeacherCabinetLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const state = useAsync((signal) => getTeacherCabinet(DEMO_TEACHER_ID, signal), [reloadKey]);
+  // Fields saved from the cabinet since the last load; cleared whenever the data is reloaded.
+  const [teacherPatch, setTeacherPatch] = useState<Partial<CabinetTeacher>>({});
+  const updateTeacher = useCallback(
+    (patch: Partial<CabinetTeacher>) => setTeacherPatch((prev) => ({ ...prev, ...patch })),
+    [],
+  );
+  const data = useMemo(
+    () => (state.status === "success" ? { ...state.data, teacher: { ...state.data.teacher, ...teacherPatch } } : undefined),
+    [state, teacherPatch],
+  );
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTeacherPatch({});
+  }, [reloadKey]);
 
   const path = pathname.replace(/\/+$/, "") || TEACHER_CABINET_BASE;
   const section = TEACHER_CABINET_NAV.find((item) => item.href === path)?.section ?? "გვერდი ვერ მოიძებნა";
@@ -45,7 +60,7 @@ export function TeacherCabinetLayout() {
       <div className="flex min-h-svh min-w-0 flex-col lg:pl-72">
         <TeacherCabinetHeader
           section={section}
-          teacher={state.status === "success" ? state.data.teacher : undefined}
+          teacher={data?.teacher}
           theme={theme}
           onToggleTheme={toggleTheme}
           onOpenSidebar={() => setIsSidebarOpen(true)}
@@ -57,8 +72,8 @@ export function TeacherCabinetLayout() {
           {state.status === "error" && (
             <ErrorState message={state.error} onRetry={() => setReloadKey((key) => key + 1)} />
           )}
-          {state.status === "success" && (
-            <Outlet context={{ data: state.data, theme, toggleTheme } satisfies TeacherCabinetContext} />
+          {data && (
+            <Outlet context={{ data, updateTeacher, theme, toggleTheme } satisfies TeacherCabinetContext} />
           )}
         </main>
       </div>
