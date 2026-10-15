@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import { MainLayout } from "../layouts/MainLayout";
+import { StudentCabinetLayout } from "../layouts/StudentCabinetLayout";
 import { TeacherCabinetLayout } from "../layouts/TeacherCabinetLayout";
 import { CollegeDetailsPage } from "../pages/CollegeDetailsPage";
 import { CollegesPage } from "../pages/CollegesPage";
@@ -12,6 +13,18 @@ import { NotFoundPage } from "../pages/NotFoundPage";
 import { ProfessionDetailsPage } from "../pages/ProfessionDetailsPage";
 import { ProfessionsPage } from "../pages/ProfessionsPage";
 import { StudentDetailsPage } from "../pages/StudentDetailsPage";
+import { StudentCertificatesPage } from "../pages/student-cabinet/StudentCertificatesPage";
+import { StudentDashboardPage } from "../pages/student-cabinet/StudentDashboardPage";
+import { StudentEducationPage } from "../pages/student-cabinet/StudentEducationPage";
+import { StudentLoginPage } from "../pages/student-cabinet/StudentLoginPage";
+import { StudentProfilePage } from "../pages/student-cabinet/StudentProfilePage";
+import { StudentSettingsPage } from "../pages/student-cabinet/StudentSettingsPage";
+import {
+  StudentCabinetNotFoundPage,
+  StudentCollegesPage,
+  StudentGroupsPage,
+  StudentModulesPage,
+} from "../pages/student-cabinet/StudentStudyPages";
 import { StudentsPage } from "../pages/StudentsPage";
 import { TeacherDetailsPage } from "../pages/TeacherDetailsPage";
 import { TeachersPage } from "../pages/TeachersPage";
@@ -65,6 +78,20 @@ export function AppRouter() {
         <Route path="students" element={<CabinetStudentsPage />} />
         <Route path="settings" element={<CabinetSettingsPage />} />
         <Route path="*" element={<CabinetNotFoundPage />} />
+      </Route>
+
+      {/* Signed-in students only — the layout sends anyone without a token to the login page. */}
+      <Route path="student-cabinet/login" element={<StudentLoginPage />} />
+      <Route path="student-cabinet" element={<StudentCabinetLayout />}>
+        <Route index element={<StudentDashboardPage />} />
+        <Route path="profile" element={<StudentProfilePage />} />
+        <Route path="education" element={<StudentEducationPage />} />
+        <Route path="certificates" element={<StudentCertificatesPage />} />
+        <Route path="colleges" element={<StudentCollegesPage />} />
+        <Route path="groups" element={<StudentGroupsPage />} />
+        <Route path="modules" element={<StudentModulesPage />} />
+        <Route path="settings" element={<StudentSettingsPage />} />
+        <Route path="*" element={<StudentCabinetNotFoundPage />} />
       </Route>
     </Routes>
   );

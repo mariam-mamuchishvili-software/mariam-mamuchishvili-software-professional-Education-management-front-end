@@ -9,6 +9,8 @@ export interface TimelineEntry {
   badge?: ReactNode;
   description?: string | null;
   highlighted?: boolean;
+  /** Controls shown in the card's top-right corner, e.g. edit/delete buttons. */
+  actions?: ReactNode;
 }
 
 interface TimelineProps {
@@ -38,14 +40,17 @@ export function Timeline({ entries, icon: Icon }: TimelineProps) {
           </div>
 
           <article className="min-w-0 flex-1 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-card transition-shadow hover:shadow-card-hover sm:p-5 dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
-                {entry.period}
-              </p>
-              {entry.meta && (
-                <span className="text-xs text-slate-400 dark:text-slate-500">· {entry.meta}</span>
-              )}
-              {entry.badge}
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex min-w-0 flex-wrap items-center gap-2">
+                <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
+                  {entry.period}
+                </p>
+                {entry.meta && (
+                  <span className="text-xs text-slate-400 dark:text-slate-500">· {entry.meta}</span>
+                )}
+                {entry.badge}
+              </div>
+              {entry.actions && <div className="-mt-1 -mr-1 flex shrink-0 items-center gap-1">{entry.actions}</div>}
             </div>
             <h3 className="mt-2 text-base font-semibold break-words">{entry.title}</h3>
             <p className="mt-0.5 text-sm font-medium break-words text-brand-600 dark:text-brand-400">
