@@ -1,7 +1,29 @@
 import { Route, Routes } from "react-router";
+import { CollegeCabinetLayout } from "../layouts/CollegeCabinetLayout";
 import { MainLayout } from "../layouts/MainLayout";
 import { StudentCabinetLayout } from "../layouts/StudentCabinetLayout";
 import { TeacherCabinetLayout } from "../layouts/TeacherCabinetLayout";
+import { CollegeAttendancePage } from "../pages/college-cabinet/CollegeAttendancePage";
+import { CollegeDashboardPage } from "../pages/college-cabinet/CollegeDashboardPage";
+import {
+  CollegeGroupDetailsPage,
+  CollegeModuleDetailsPage,
+  CollegeProfessionDetailsPage,
+  CollegeStudentDetailsPage,
+  CollegeTeacherDetailsPage,
+} from "../pages/college-cabinet/CollegeDetailsPages";
+import {
+  CollegeAnnouncementsPage,
+  CollegeCabinetNotFoundPage,
+  CollegeGroupsPage,
+  CollegeModulesPage,
+  CollegeProfessionsPage,
+  CollegeStudentsPage,
+  CollegeTeachersPage,
+} from "../pages/college-cabinet/CollegeListPages";
+import { CollegeLoginPage } from "../pages/college-cabinet/CollegeLoginPage";
+import { CollegeProfilePage } from "../pages/college-cabinet/CollegeProfilePage";
+import { CollegeReportsPage } from "../pages/college-cabinet/CollegeReportsPage";
 import { CollegeDetailsPage } from "../pages/CollegeDetailsPage";
 import { CollegesPage } from "../pages/CollegesPage";
 import { GroupDetailsPage } from "../pages/GroupDetailsPage";
@@ -92,6 +114,27 @@ export function AppRouter() {
         <Route path="modules" element={<StudentModulesPage />} />
         <Route path="settings" element={<StudentSettingsPage />} />
         <Route path="*" element={<StudentCabinetNotFoundPage />} />
+      </Route>
+
+      {/* Signed-in college administrators and staff only; read-only (records are managed in the college panel). */}
+      <Route path="college-cabinet/login" element={<CollegeLoginPage />} />
+      <Route path="college-cabinet" element={<CollegeCabinetLayout />}>
+        <Route index element={<CollegeDashboardPage />} />
+        <Route path="profile" element={<CollegeProfilePage />} />
+        <Route path="students" element={<CollegeStudentsPage />} />
+        <Route path="students/:id" element={<CollegeStudentDetailsPage />} />
+        <Route path="teachers" element={<CollegeTeachersPage />} />
+        <Route path="teachers/:id" element={<CollegeTeacherDetailsPage />} />
+        <Route path="groups" element={<CollegeGroupsPage />} />
+        <Route path="groups/:id" element={<CollegeGroupDetailsPage />} />
+        <Route path="professions" element={<CollegeProfessionsPage />} />
+        <Route path="professions/:id" element={<CollegeProfessionDetailsPage />} />
+        <Route path="modules" element={<CollegeModulesPage />} />
+        <Route path="modules/:id" element={<CollegeModuleDetailsPage />} />
+        <Route path="announcements" element={<CollegeAnnouncementsPage />} />
+        <Route path="attendance" element={<CollegeAttendancePage />} />
+        <Route path="reports" element={<CollegeReportsPage />} />
+        <Route path="*" element={<CollegeCabinetNotFoundPage />} />
       </Route>
     </Routes>
   );

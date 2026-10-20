@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { ComponentType } from "react";
 import { Link } from "react-router";
 
-export type StatAccent = "indigo" | "emerald" | "amber" | "rose";
+export type StatAccent = "indigo" | "emerald" | "amber" | "rose" | "sky";
 
 // Class names are spelled out in full per accent so Tailwind can detect them.
 const ACCENT_CLASSES: Record<StatAccent, string> = {
@@ -10,6 +10,7 @@ const ACCENT_CLASSES: Record<StatAccent, string> = {
   emerald: "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
   amber: "bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
   rose: "bg-rose-50 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300",
+  sky: "bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-300",
 };
 
 interface CabinetStatCardProps {
